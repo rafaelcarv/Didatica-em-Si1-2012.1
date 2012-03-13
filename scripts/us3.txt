@@ -1,67 +1,33 @@
-#User Story 02 - Cadastro de Caronas
+# User Story 03 - Localizar usuário
 
 zerarSistema
 
-#US02 - Cadastro de caronas. Permitir o cadastro de caronas no perfil do usuário. 
-#Deve-se informar o local de origem, o local de destino, data, hora de saída e quantidade de vagas disponíveis.
+# entradas válidas
 
-#Entradas Válidas
-criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
-sessaoMark=abrirSessao login="mark" senha="m@rk"
+criarUsuario login="mark" nome="Mark Zuckerberg" endereco="Palo Alto, California"
+sessaoMark=abrirSessao login="mark"
+expect "Nenhum usuário encontrado" localizarUsuario idSessao=${sessaoMark} chave="Mark" atributo="nome"
+expect "Nenhum usuário encontrado" localizarUsuario idSessao=${sessaoMark} chave="Palo Alto" atributo="endereco"
 
-#o método cadastrar carona retorna id
-sessaoMark=abrirSessao login="mark" senha="m@rk"
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
-expect "Campina Grande" getAtributoCarona idCarona=${carona1ID} atributo="origem"
-expect "João Pessoa" getAtributoCarona idCarona=${carona1ID} atributo="destino"
-expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}
+criarUsuario login="steve" nome="Steven Paul Jobs" endereco="Palo Alto, California"
+expect "Steven Paul Jobs - Palo Alto, California" localizarUsuario idSessao=${sessaoMark} chave="Steve" atributo="nome"
+expect "Steven Paul Jobs - Palo Alto, California" localizarUsuario idSessao=${sessaoMark} chave="Palo Alto" atributo="endereco"
 
-carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="São Paulo" data="31/05/2012" hora="08:00" vagas=2
-expect "31/05/2012" getAtributoCarona idCarona=${carona2ID} atributo="data"
-expect 2 getAtributoCarona idCarona=${carona2ID} atributo="vagas"
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+sessaoBill=abrirSessao login="bill"
+expect "Mark Zuckerberg - Palo Alto, California; Steven Paul Jobs - Palo Alto, California" localizarUsuario idSessao=${sessaoBill} chave="Palo Alto" atributo="endereco"
 
-carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande" data="25/11/2026" hora="06:59" vagas=4
-expect "Campina Grande para João Pessoa, no dia 25/11/2012, as 06:59" getCarona idCarona=${carona3ID}
+# entradas inválidas
 
+expectError "Sessão inválida" localizarUsuario idSessao= chave="xpto" atributo="nome"
+expectError "Sessão inválida" localizarUsuario idSessao="" chave="xpto" atributo="nome"
+expectError "Sessão inexistente" localizarUsuario idSessao="xpto" chave="xpto" atributo="nome"
 
-#entradas inválidas
-expectError "Sessão inválida" cadastrarCarona idSessao= origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
-expectError "Sessão inválida" cadastrarCarona idSessao="" origem="Patos" destino="São Paulo" data="31/05/2012" hora="08:00" vagas=2
-expectError "Sessão inexistente" cadastrarCarona idSessao="teste" origem="João Pessoa" destino="Campina Grande" data="25/11/2026" hora="06:59" vagas=4
-
-expectError "Origem inválida" cadastrarCarona idSessao=${sessaoMark} origem= destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
-expectError "Origem inválida" cadastrarCarona idSessao=${sessaoMark} origem="" destino="São Paulo" data="31/05/2012" hora="08:00" vagas=2
-
-expectError "Destino inválido" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino= data="23/06/2012" hora="16:00" vagas=3
-expectError "Destino inválido" cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="" data="31/05/2012" hora="08:00" vagas=2
-
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data= hora="16:00" vagas=3
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="" hora="08:00" vagas=2
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="30/02/2012" hora="16:00" vagas=3
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="31/04/2012" hora="16:00" vagas=3
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="32/12/2012" hora="16:00" vagas=3
-expectError "Data inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="25/12/2011" hora="16:00" vagas=3
-
-
-expectError "Hora inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora= vagas=3
-expectError "Hora inválida" cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2012" hora="" vagas=2
-expectError "Hora inválida" cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2012" hora="seis" vagas=2
-
-expectError "Vaga inválida" cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=
-expectError "Vaga inválida" cadastrarCarona idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2012" hora="08:00" vagas="duas"
-
-expectError "Identificador do carona é inválido" getAtributoCarona idCarona= atributo="origem"
-expectError "Identificador do carona é inválido" getAtributoCarona idCarona="" atributo="origem"
-expectError "Item inexistente" getAtributoCarona idCarona="xpto" atributo="destino"
-expectError "Atributo inválido" getAtributoCarona idCarona=${carona3ID} atributo=
-expectError "Atributo inválido" getAtributoCarona idCarona=${carona2ID} atributo=""
-expectError "Atributo inexistente" getAtributoCarona idCarona=${carona1ID} atributo="xpto"
-expectError "Carona Inexistente" getCarona idCarona=""
-expectError "Carona Inválida" getCarona idCarona=
-expectError "Carona Inexistente" getCarona idCarona="xpto"
-expectError "Trajeto Inexistente" getTrajeto idCarona=""
-expectError "Trajeto Inválida" getTrajeto idCarona=
-expectError "Trajeto Inexistente" getTrajeto idCarona="xpto"
+expectError "Palavra-chave inválida" localizarUsuario idSessao=${sessaoMark} chave= atributo="nome"
+expectError "Palavra-chave inválida" localizarUsuario idSessao=${sessaoMark} chave="" atributo="nome"
+expectError "Atributo inválido" localizarUsuario idSessao=${sessaoMark} chave="Palo Alto" atributo=
+expectError "Atributo inválido" localizarUsuario idSessao=${sessaoMark} chave="Palo Alto" atributo=""
+expectError "Atributo inexistente" localizarUsuario idSessao=${sessaoMark} chave="Palo Alto" atributo="xpto"
 
 encerrarSistema
 quit
