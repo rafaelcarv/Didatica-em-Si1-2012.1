@@ -1,7 +1,10 @@
-#User Story 04 - Localizar carona
+#User Story 04 - Solicitação de vagas com marcação de ponto de encontro
 
-#US4 - Localizar carona. Permitir o cadastro de caronas no perfil do usuário. Deve-se informar o local de origem, o local 
-#de destino, data, hora de saída e quantidade de vagas disponíveis.
+#US04 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
+#          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
+#          2. Usuário sugerir ponto de encontro
+#          3. Aprovar vaga. O usuário que cadastrou a carona recebe a solicitaçãoe e pode aprová-la ou não. 
+#             Ao aprová-la a quantidade de vagas disponíveis na carona é atualizada.
 
 
 #Limpar os dados do sistema.
@@ -13,11 +16,6 @@ criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alt
 #Iniciar sessão.
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
-#Localizar carona, sem carona cadastrada.
-expect {} localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa"
-expect {} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
-expect {} localizarCarona idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo"
-
 #Cadastrar caronas.
 carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Cajazeiras" destino="Patos" data="20/07/2012" hora="14:00" vagas=4
 carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
@@ -26,21 +24,39 @@ carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino
 carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="04/06/2012" hora="16:00" vagas=2
 carona6ID=cadastrarCarona idSessao=${sessaoMark} origem="Leeds" destino="Londres" data="10/02/2013" hora="10:00" vagas=3
 
-#Localizar carona.
-expect {carona2ID} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
-expect {} localizarCarona idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo"
-expect {carona3ID, carona4ID, carona5ID} localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa"
+#Encerrar a sessao de mark.
+encerrarSessao login="mark"
 
+#Iniciar sessão com outro usuário.
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+sessaoBill=abrirSessao login="bill"
 
-#Testa possiveis erros no sistema.
-expectError "Origem inválida" localizarCarona idSessao=${sessaoMark} origem="" destino="João Pessoa"
-expectError "Origem inválida" localizarCarona idSessao=${sessaoMark} origem="()" destino="João Pessoa"
-expectError "Origem inválida" localizarCarona idSessao=${sessaoMark} origem="!" destino="João Pessoa"
-expectError "Origem inválida" localizarCarona idSessao=${sessaoMark} origem="!?" destino="João Pessoa"
-expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino=""
-expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="()"
-expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="!?"
+#Requisitar vaga na carona.
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
-#Sair do sistema.
-encerrarSistema
-quit
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+
+#Tentar aceitar novamente a requisição
+expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+
+#Requisitar vaga na carona.
+solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona5ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+
+#Rejeitar requisição
+rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
+
+#Tentar rejeitar novamente a requisição
+expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
