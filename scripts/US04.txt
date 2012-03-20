@@ -3,8 +3,9 @@
 #US04 - Solicitação de vagas. Permitir a solicitação de uma vaga em uma carona disponível.  Este processo envolve os seguintes passos:
 #          1. Requisitar vaga. Um usuário pode solicitar uma vaga em qualquer carona disponível no sistema.
 #          2. Usuário sugerir ponto de encontro
-#          3. Aprovar vaga. O usuário que cadastrou a carona recebe a solicitaçãoe e pode aprová-la ou não. 
+#          3. Aprovar vaga ou segerir novo lugar. O usuário que cadastrou a carona recebe a solicitação e pode aprová-la ou sugerir um outro ponto de encontro. 
 #             Ao aprová-la a quantidade de vagas disponíveis na carona é atualizada.
+#	   4. Se for sugerido um novo ponto de encontro pelo usuário que cadastrou a carona o solicitante pode aprovar a carona ou recusar.
 
 
 #Limpar os dados do sistema.
@@ -29,34 +30,55 @@ encerrarSessao login="mark"
 
 #Iniciar sessão com outro usuário.
 criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
-sessaoBill=abrirSessao login="bill"
+sessaoBill=abrirSessao login="bill" senha="b1ll"
+
+#Sugerir ponto de encontro para uma carona
+sugestaoID = sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
+encerrarSessao login="bill"
+
+#Resposta a requisicao
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
+encerrarSessao login="mark"
 
 #Requisitar vaga na carona.
-solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
+sessaoBill=abrirSessao login="bill" senha="b1ll"
+solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
 expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
 expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+expect "Acude Velho" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Ponto de Encontro"
+encerrarSessao login="bill"
 
 #Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+expect "Acude Velho" idCarona={carona4ID} atributo="Ponto de Encontro"
 
 #Tentar aceitar novamente a requisição
 expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
+
+#Iniciar sessão com outro usuário.
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+sessaoBill=abrirSessao login="bill" senha="b1ll"
+
+#Sugerir ponto de encontro para uma carona
+sugestaoID = sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
+encerrarSessao login="bill"
+
+#Resposta a requisicao
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+respostaID = responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
+encerrarSessao login="mark"
+
 #Requisitar vaga na carona.
-solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona5ID}
-expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
-expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
-expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
-expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+desistirRequisicao idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID}
 
-#Rejeitar requisição
-rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
-expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
-#Tentar rejeitar novamente a requisição
-expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
-expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
+expectError "Ponto Inválido" sugestaoID = sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
+expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos=""
+expectError "Ponto Inválido" solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
