@@ -29,7 +29,7 @@ carona6ID=cadastrarCarona idSessao=${sessaoMark} origem="Leeds" destino="Londres
 encerrarSessao login="mark"
 
 #Iniciar sessão com outro usuário.
-criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 sessaoBill=abrirSessao login="bill" senha="b1ll"
 
 #Sugerir ponto de encontro para uma carona
@@ -63,7 +63,7 @@ expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 
 #Iniciar sessão com outro usuário.
-criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 sessaoBill=abrirSessao login="bill" senha="b1ll"
 
 #Sugerir ponto de encontro para uma carona

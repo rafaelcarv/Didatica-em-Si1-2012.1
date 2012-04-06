@@ -27,7 +27,7 @@ carona6ID=cadastrarCarona idSessao=${sessaoMark} origem="Leeds" destino="Londres
 encerrarSessao login="mark"
 
 #Iniciar sessão com outro usuário.
-criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington"
+criarUsuario login="bill" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 sessaoBill=abrirSessao login="bill"
 
 #Requisitar vaga na carona.
