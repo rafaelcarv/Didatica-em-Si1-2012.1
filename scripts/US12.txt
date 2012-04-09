@@ -1,0 +1,58 @@
+#User Story 12 - Email de avisos
+
+#US12 - Aviso do processo de negociação de carona e de novas caronas sendo publicadas por email. 
+
+
+#Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
+criarUsuario login="bill" senha="bilz@a" nome="Bill Clinton" endereco="Hollywood, California" email="bill@gmail.com"
+#Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#Cadastrar caronas.
+carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2012" hora="12:00" vagas=1
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="04/06/2012" hora="16:00" vagas=2
+
+#Iniciar sessão com outro usuário.
+sessaoBill=abrirSessao login="bill" senha="bilz@o"
+
+#Requisitar vaga na carona.
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+
+
+#Enviar email
+expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A solicitação foi recebida"
+
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+
+#Enviar email
+expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A carona foi confirmada"
+
+
+#Requisitar vaga na carona.
+solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+
+#Enviar email
+expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A solicitação foi recebida"
+
+#Rejeitar requisição
+rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+expect 0 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
+
+#Enviar email
+expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A carona foi rejeitada por falta de vaga"
+
+
