@@ -1,61 +1,61 @@
-#User Story 05 - SolicitaÁ„o de vagas
+#User Story 05 - Solicita√ß√£o de vagas
 
-#US05 - SolicitaÁ„o de vagas. Permitir a solicitaÁ„o de uma vaga em uma carona disponÌvel.  Este processo envolve os seguintes passos:
-#          1. Requisitar vaga. Um usu·rio pode solicitar uma vaga em qualquer carona disponÌvel no sistema.
-#          2. Aprovar vaga. O usu·rio que cadastrou a carona recebe a solicitaÁ„oe e pode aprov·-la ou n„o. 
-#             Ao aprov·-la a quantidade de vagas disponÌveis na carona È atualizada.
+#US05 - Solicita√ß√£o de vagas. Permitir a solicita√ß√£o de uma vaga em uma carona dispon√≠vel.  Este processo envolve os seguintes passos:
+#          1. Requisitar vaga. Um usu√°rio pode solicitar uma vaga em qualquer carona dispon√≠vel no sistema.
+#          2. Aprovar vaga. O usu√°rio que cadastrou a carona recebe a solicita√ß√£o e pode aprov√°-la ou n√£o. 
+#             Ao aprov√°-la a quantidade de vagas dispon√≠veis na carona √© atualizada.
 
 
 #Limpar os dados do sistema.
 zerarSistema
 
-#Criar usu·rio.
+#Criar usu√°rio.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
 
-#Iniciar sess„o.
+#Iniciar sess√£o.
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Cadastrar caronas.
 carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Cajazeiras" destino="Patos" data="20/07/2012" hora="14:00" vagas=4
-carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="S„o Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
-carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo„o Pessoa" data="01/06/2012" hora="12:00" vagas=1
-carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo„o Pessoa" data="02/06/2012" hora="12:00" vagas=3
-carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo„o Pessoa" data="04/06/2012" hora="16:00" vagas=2
+carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="S√£o Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
+carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo√£oPessoa" data="01/06/2012" hora="12:00" vagas=1
+carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo√£o Pessoa" data="02/06/2012" hora="12:00" vagas=3
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo√£o Pessoa" data="04/06/2012" hora="16:00" vagas=2
 carona6ID=cadastrarCarona idSessao=${sessaoMark} origem="Leeds" destino="Londres" data="10/02/2013" hora="10:00" vagas=3
 
 #Encerrar a sessao de mark.
 encerrarSessao login="mark"
 
-#Iniciar sess„o com outro usu·rio.
+#Iniciar sess√£o com outro usu√°rio.
 criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 sessaoBill=abrirSessao login="bill" senha="bilz@o"
 
 #Requisitar vaga na carona.
 solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
 expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
-expect "Jo„o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Jo√£o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
-#Aceitar requisiÁ„o
+#Aceitar requisi√ß√£o
 aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
-#Tentar aceitar novamente a requisiÁ„o
-expectError "SolicitaÁ„o inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+#Tentar aceitar novamente a requisi√ß√£o
+expectError "Solicita√ß√£o inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.
 solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona5ID}
 expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
-expect "Jo„o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Jo√£o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
 
-#Rejeitar requisiÁ„o
+#Rejeitar requisi√ß√£o
 rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
-#Tentar rejeitar novamente a requisiÁ„o
-expectError "SolicitaÁ„o inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+#Tentar rejeitar novamente a requisi√ß√£o
+expectError "Solicita√ß√£o inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"

@@ -1,46 +1,46 @@
-#User Story 08 - Confirmação de Presença
+#User Story 08 - ConfirmaÃ§Ã£o de PresenÃ§a
 
-#US08 - Confirmação de presença: após uma carona, um motorista pode marcar que usuários estiveram presentes ou não na sua carona e, 
-#opcionalmente, colocar um comentário sobre o comportamento deles. 
+#US08 - ConfirmaÃ§Ã£o de presenÃ§a: apÃ³s uma carona, um motorista pode marcar que usuÃ¡rios estiveram presentes ou nÃ£o na sua carona e, 
+#opcionalmente, colocar um comentÃ¡rio sobre o comportamento deles. 
 #Caroneiros que faltaram levam uma falta, que deve aparecer no seu perfil, junto da quantidade de caronas pegas.
 
 #Limpar os dados do sistema.
 zerarSistema
 
-#Criar usuário.
+#Criar usuÃ¡rio.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
 criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death Star I" email="darthvader@empire.com"
 
-#Iniciar sessão.
+#Iniciar sessÃ£o.
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Cadastrar caronas.
-carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2012" hora="12:00" vagas=3
-carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="04/06/2012" hora="16:00" vagas=2
+carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="JoÃ£o Pessoa" data="02/06/2012" hora="12:00" vagas=3
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="JoÃ£o Pessoa" data="04/06/2012" hora="16:00" vagas=2
 
-#Iniciar sessão com outro usuário.
+#Iniciar sessÃ£o com outro usuÃ¡rio.
 sessaoBill=abrirSessao login="bill" senha="bilz@o"
 
 #Requisitar vaga na carona.
 solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
-expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
-expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="origem"
+expect "JoÃ£o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
-#Aceitar requisição
+#Aceitar requisiÃ§Ã£o
 aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.
 solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona5ID}
-expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
-expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="origem"
+expect "JoÃ£o Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
 
-#Aceitar requisição
+#Aceitar requisiÃ§Ã£o
 aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
@@ -51,28 +51,27 @@ expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
 expect "" getAtributoPerfil login="mark" atributo="historico de caronas"
-expect "origem=Campina Grande destino=João Pessoa data=02/06/2012 hora=12:00 vagas=2 | origem=Campina Grande destino=João Pessoa data=04/06/2012 hora=16:00 vagas=1" getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
 expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
-expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
+expect "0" getAtributoPerfil login="mark" atributo="caronas que nÃ£o funcionaram"
 expect "1" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
-expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
+expect "0" getAtributoPerfil login="mark" atributo="presenÃ§as em vagas de caronas"
 
-reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="não faltou"
+reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="nÃ£o faltou"
 perfilBill=visualizaPerfil idSessao=${sessaoBill} login=bill
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
 expect "" getAtributoPerfil login="mark" atributo="historico de caronas"
-expect "origem=Campina Grande destino=João Pessoa data=02/06/2012 hora=12:00 vagas=2 | origem=Campina Grande destino=João Pessoa data=04/06/2012 hora=16:00 vagas=1" getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas seguras e tranquilas"
-expect "0" getAtributoPerfil login="bill" atributo="caronas que não funcionaram"
+expect "0" getAtributoPerfil login="bill" atributo="caronas que nÃ£o funcionaram"
 expect "1" getAtributoPerfil login="bill" atributo="faltas em vagas de caronas"
-expect "1" getAtributoPerfil login="bill" atributo="presenças em vagas de caronas"
+expect "1" getAtributoPerfil login="bill" atributo="presenÃ§as em vagas de caronas"
 
 #possiveis erros
-expectError "Opção inválida." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=bill review="não dou mais carona"
+expectError "OpÃ§Ã£o invÃ¡lida." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=bill review="nÃ£o dou mais carona"
 
-#Iniciar sessão com outro usuário.
+#Iniciar sessÃ£o com outro usuÃ¡rio.
 sessaoVader=abrirSessao login="vader" senha="d@rth"
 
-expectError "Usuário não possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=vader review="não funcionou"
+expectError "UsuÃ¡rio nÃ£o possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=vader review="nÃ£o funcionou"
+

@@ -1,0 +1,53 @@
+#-  Interesse em destino e tempo: o usuário diz que está interessado
+# em caronas entre uma origem e destino em um determinado período.
+# Caso seja publicada uma carona que satisfaça os requisitos,
+# O usuário é avisado por uma mensagem no seu perfil.
+ 
+#Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="zezyt0" senha="z3z1t0" nome="Jose de zito" endereco="Rua belarmina pereira 452, João Pessoa" email="zezyto@gmail.com"
+criarUsuario login="manelito" senha="w4n3l1t0" nome="Manel da Silva" endereco="Rua adamastor pitaco 24, João Pessoa" email="manel@yahoo.com.br"
+criarUsuario login="jucaPeroba" senha="juqinha" nome="Juca Peroba" endereco="Rua 13 de maio, Caruaru" email="jucaPeroba@gmail.com"
+criarUsuario login="mariano0ab" senha="mariozinho" nome="Mariano Silva" endereco="Rua 27 de maio, Campina Grande" email="marianoAdvogado@gmail.com"
+
+#Iniciar sessão.
+sessaoZezito=abrirSessao login="zezyt0" senha="z3z1t0"
+expect "Jose de zito" getAtributoUsuario login="zezyt0" atributo="nome"
+expect "Rua belarmina pereira 452, João Pessoa" getAtributoUsuario login="zezyt0" atributo="endereco"
+
+sessaoManelito=abrirSessao login="manelito" senha="w4n3l1t0"
+expect "Manel da Silva" getAtributoUsuario login="manelito" atributo="nome" 
+expect "Rua adamastor pitaco 24, João Pessoa" getAtributoUsuario login="manelito" atributo="endereco"
+
+sessaoJuca=abrirSessao login="jucaPeroba" senha="juqinha"
+sessaoMariano=abrirSessao login="mariano0ab" senha="mariozinho"
+
+#Mostrar interesse.
+idInteresse1=cadastrarInteresse idSessao=${sessaoZezito} origem="João Pessoa" destino="Campina Grande" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+idInteresse2=cadastrarInteresse idSessao=${manelito} origem="Campina Grande" destino="João Pessoa" data="25/06/2012" horaInicio="11:00" horaFim="18:00"
+idInteresse3=cadastrarInteresse idSessao=${mariano0ab} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" horaInicio="" horaFim="18:00"
+
+#Para os horários o sistema poderá deixar o usuário livre, ou seja, ele poderá não colocar horaInicio(pegará todos a partir das 0h do dia especificado
+# ou horaFim(pegará todos até às 11:59 do dia especificado) que a consulta será realizada.
+expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="-" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="!" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="!" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="" horaInicio="06:00" horaFim="16:00"
+expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data= horaInicio="06:00" horaFim="16:00"
+
+
+#Cadastrar caronas.
+carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
+carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="João Pessoa" destino="Campina Grande" data="25/06/2012" hora="14:00" vagas=4
+carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destino="Campina Grande" data="25/06/2012" hora="15:00" vagas=1
+
+#Verificar perfil.
+expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoZezito}
+expect "[]" verificarMensagensPerfil idSessao=${manelito}
+expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${mariano0ab}
+
+encerrarSistema
+quit

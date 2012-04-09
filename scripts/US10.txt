@@ -1,27 +1,27 @@
 #User Story 10 - Caronas intermunicipais vs. dentro da cidade
 
-#US10 - Caronas intermunicipais vs. dentro da cidade: o sistema diferencia nas publicaÁıes e buscas entre caronas intermunicipais e caronas numa mesma cidade. 
-#No caso de o usu·rio querer buscar por caronas em uma cidade especÌfica, ele deve informar qual a cidade.
+#US10 - Caronas intermunicipais vs. dentro da cidade: o sistema diferencia nas publica√ß√µes e buscas entre caronas intermunicipais e caronas numa mesma cidade. 
+#No caso de o usu√°rio querer buscar por caronas em uma cidade espec√≠fica, ele deve informar qual a cidade.
 
 
 #Limpar os dados do sistema.
 zerarSistema
 
-#Criar usu·rio.
+#Criar usu√°rio.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
 criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
 criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death Star I" email="darthvader@empire.com"
 
-#Iniciar sess„o.
+#Iniciar sess√£o.
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Cadastrar caronas.
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo„o Pessoa" data="02/06/2012" hora="12:00" vagas=3
-carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="Souza" destino="Jo„o Pessoa" data="08/06/2012" hora="14:00" vagas=2
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Jo√£o Pessoa" data="02/06/2012" hora="12:00" vagas=3
+carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="Souza" destino="Jo√£o Pessoa" data="08/06/2012" hora="14:00" vagas=2
 carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Patos" data="25/06/2012" hora="8:00" vagas=1
-carona4ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="AÁude Velho" destino="Shopping Boulevard" cidade="Campina Grande" data="04/06/2012" hora="20:00" vagas=2
-carona5ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="PraÁa do Caj˙" destino="Villa S„o Paulo" cidade="Jo„o Pessoa" data="04/06/2012" hora="22:00" vagas=2
-carona6ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="ManaÌra Shopping" destino="Parque Solon de Lucena" cidade="Jo„o Pessoa" data="04/06/2012" hora="14:00" vagas=2
+carona4ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="A√ßude Velho" destino="Shopping Boulevard" cidade="Campina Grande" data="04/06/2012" hora="20:00" vagas=2
+carona5ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Pra√ßa do Caj√∫" destino="Villa S√£o Paulo" cidade="Jo√£o Pessoa" data="04/06/2012" hora="22:00" vagas=2
+carona6ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Mana√≠ra Shopping" destino="Parque Solon de Lucena" cidade="Jo√£o Pessoa" data="04/06/2012" hora="14:00" vagas=2
 
 expect false getAtributoCarona idCarona=${carona1ID} atributo="ehMunicipal"
 expect false getAtributoCarona idCarona=${carona2ID} atributo="ehMunicipal"
@@ -30,16 +30,17 @@ expect true  getAtributoCarona idCarona=${carona4ID} atributo="ehMunicipal"
 expect true  getAtributoCarona idCarona=${carona5ID} atributo="ehMunicipal"
 expect true  getAtributoCarona idCarona=${carona6ID} atributo="ehMunicipal"
 
-#Iniciar sess„o com outro usu·rio.
+#Iniciar sess√£o com outro usu√°rio.
 sessaoBill=abrirSessao login="bill" senha="bilz@o"
 
-expect carona1ID localizarCarona idSessao=${sessaoBill} origem="Campina Grande" destino="Jo„o Pessoa"
-expect carona4ID localizarCaronaMunicipal idSessao=${sessaoBill} cidade="Campina Grande" origem="AÁude Velho" destino="Shopping Boulevard"
-expect [carona5ID,carona6ID] localizarCaronaMunicipal idSessao=${sessaoMark} cidade="Jo„o Pessoa"
+expect ${carona1ID} localizarCarona idSessao=${sessaoBill} origem="Campina Grande" destino="Jo√£o Pessoa"
+expect ${carona4ID} localizarCaronaMunicipal idSessao=${sessaoBill} cidade="Campina Grande" origem="A√ßude Velho" destino="Shopping Boulevard"
+expect [${carona5ID},${carona6ID}] localizarCaronaMunicipal idSessao=${sessaoMark} cidade="Jo√£o Pessoa"
 
 #Testa possiveis erros no sistema.
-expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} origem="AÁude Velho" destino="Shopping Boulevard"
-expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} cidade="" origem="AÁude Velho" destino="Shopping Boulevard"
+expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} origem="A√ßude Velho" destino="Shopping Boulevard"
+expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} cidade="" origem="A√ßude Velho" destino="Shopping Boulevard"
+
 
 
 
