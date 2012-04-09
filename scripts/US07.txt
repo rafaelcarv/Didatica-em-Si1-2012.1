@@ -1,4 +1,4 @@
-#User Story 06 - Persistencia de Informacoes - INICIO
+#User Story 07 - Persistencia de Informacoes - INICIO
 #
 #	1 . Cria 2 usuarios Mark e Steve
 #	2. Cadastra 3 caronas associadas a cada usuario
@@ -9,7 +9,7 @@
 #	7. Sistema é reiniciado
 #	8. Checa se informacoes foram persistidas de forma correta
 #
-#User Story 06 - Persistencia de Informacoes - FIM
+#User Story 07 - Persistencia de Informacoes - FIM
 
 #Limpar os dados do sistema.
 zerarSistema

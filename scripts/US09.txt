@@ -1,0 +1,79 @@
+#User Story 09 - Review de carona
+
+#Review de caronas: os caroneiros podem, após uma carona, colocar um comentário no sistema referente àquela carona, e dar ou não um voto de "segura e tranquila" para a carona, 
+#ou marcá-la como "não funcionou", que significa que o motorista fez algo errado ao seu ver.
+#A quantidade de caronas seguras e tranquilas e que não funcionaram devem aparecer no perfil do motorista.
+
+#Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
+criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
+criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death Star I" email="darthvader@empire.com"
+
+#Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#Cadastrar caronas.
+carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2012" hora="12:00" vagas=3
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="04/06/2012" hora="16:00" vagas=2
+
+#Iniciar sessão com outro usuário.
+sessaoBill=abrirSessao login="bill" senha="bilz@o"
+
+#Requisitar vaga na carona.
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona4ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
+
+#Requisitar vaga na carona.
+solicitacao2ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona5ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao={solicitacao2ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
+
+#Review de carona.
+reviewCarona idSessao=${sessaoBill} idCarona=${carona4ID} review="segura e tranquila"
+perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
+expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
+expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
+expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
+expect "origem=Campina Grande destino=João Pessoa data=02/06/2012 hora=12:00 vagas=2 | origem=Campina Grande destino=João Pessoa data=04/06/2012 hora=16:00 vagas=1" getAtributoPerfil login="mark" atributo="historico de caronas"
+
+expect "" getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
+expect "1" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
+expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
+expect "0" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
+expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
+
+reviewCarona idSessao=${sessaoBill} idCarona=${carona5ID} review="não funcionou"
+perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
+expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
+expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
+expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
+expect "origem=Campina Grande destino=João Pessoa data=02/06/2012 hora=12:00 vagas=2 | origem=Campina Grande destino=João Pessoa data=04/06/2012 hora=16:00 vagas=1" getAtributoPerfil login="mark" atributo="historico de caronas"
+
+expect "" getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
+expect "1" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
+expect "1" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
+expect "0" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
+expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
+
+expectError "Opção inválida." reviewCarona idSessao=${sessaoBill} idCarona=${carona5ID} review="bacana"
+
+#Iniciar sessão com outro usuário.
+sessaoVader=abrirSessao login="vader" senha="d@rth"
+
+expectError "Usuário não possui vaga na carona." reviewCarona idSessao=${sessaoVader} idCarona=${carona5ID} review="não funcionou"
