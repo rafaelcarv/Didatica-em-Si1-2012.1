@@ -27,9 +27,9 @@ carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino
 carona6ID=cadastrarCarona idSessao=${sessaoMark} origem="Leeds" destino="Londres" data="10/02/2013" hora="10:00" vagas=3
 
 #Localizar carona.
-expect {carona2ID} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
+expect {${carona2ID}} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
 expect {} localizarCarona idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo"
-expect {carona3ID, carona4ID, carona5ID} localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa"
+expect {${carona3ID}, ${carona4ID}, ${carona5ID}} localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa"
 
 
 #Testa possiveis erros no sistema.
@@ -39,6 +39,6 @@ expectError "Origem inválida" localizarCarona idSessao=${sessaoMark} origem="!?
 expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="()"
 expectError "Destino inválido" localizarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="!?"
 
-#Sair do sistema.
+#Sair do sistema
 encerrarSistema
 quit

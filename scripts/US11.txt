@@ -11,6 +11,7 @@ criarUsuario login="zezyt0" senha="z3z1t0" nome="Jose de zito" endereco="Rua bel
 criarUsuario login="manelito" senha="w4n3l1t0" nome="Manel da Silva" endereco="Rua adamastor pitaco 24, João Pessoa" email="manel@yahoo.com.br"
 criarUsuario login="jucaPeroba" senha="juqinha" nome="Juca Peroba" endereco="Rua 13 de maio, Caruaru" email="jucaPeroba@gmail.com"
 criarUsuario login="mariano0ab" senha="mariozinho" nome="Mariano Silva" endereco="Rua 27 de maio, Campina Grande" email="marianoAdvogado@gmail.com"
+criarUsuario login="caba" senha="Marcin" nome="Marcio Sarvai" endereco="Rua 21 de maio, Campina Grande" email="marcioSarvai@gmail.com"
 
 #Iniciar sessão.
 sessaoZezito=abrirSessao login="zezyt0" senha="z3z1t0"
@@ -23,14 +24,16 @@ expect "Rua adamastor pitaco 24, João Pessoa" getAtributoUsuario login="manelit
 
 sessaoJuca=abrirSessao login="jucaPeroba" senha="juqinha"
 sessaoMariano=abrirSessao login="mariano0ab" senha="mariozinho"
+sessaoMarcio=abrirSessao login="caba" senha="Marcin"
 
 #Mostrar interesse.
 idInteresse1=cadastrarInteresse idSessao=${sessaoZezito} origem="João Pessoa" destino="Campina Grande" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-idInteresse2=cadastrarInteresse idSessao=${manelito} origem="Campina Grande" destino="João Pessoa" data="25/06/2012" horaInicio="11:00" horaFim="18:00"
-idInteresse3=cadastrarInteresse idSessao=${mariano0ab} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" horaInicio="" horaFim="18:00"
+idInteresse2=cadastrarInteresse idSessao=${sessaoManelito} origem="Campina Grande" destino="João Pessoa" data="25/06/2012" horaInicio="11:00" horaFim="18:00"
+idInteresse3=cadastrarInteresse idSessao=${sessaoMariano} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" horaInicio="" horaFim="18:00"
+idInteresse4=cadastrarInteresse idSessao=${sessaoMarcio} origem="Campina Grande" destino="João Pessoa" data="" horaInicio="" horaFim="18:00"
 
 #Para os horários o sistema poderá deixar o usuário livre, ou seja, ele poderá não colocar horaInicio(pegará todos a partir das 0h do dia especificado
-# ou horaFim(pegará todos até às 11:59 do dia especificado) que a consulta será realizada.
+# ou horaFim(pegará todos até às 11:59 do dia especificado) que a consulta será realizada. data="" retornará todas as caronas que tem marcadas da data atual em diante.
 expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="-" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
 expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="!" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
 expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="!" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
@@ -46,8 +49,8 @@ carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destin
 
 #Verificar perfil.
 expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoZezito}
-expect "[]" verificarMensagensPerfil idSessao=${manelito}
-expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${mariano0ab}
-
+expect "[]" verificarMensagensPerfil idSessao=${sessaoManelito}
+expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
+expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}
 encerrarSistema
 quit

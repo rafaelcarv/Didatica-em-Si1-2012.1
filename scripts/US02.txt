@@ -39,17 +39,17 @@ expect "João Pessoa para Lagoa Seca, no dia 25/11/2016, as 05:00" getCarona idC
 
 #Localizar carona.
 expect {} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
-expect ${carona2ID} localizarCarona idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo"
-expect ${carona3ID} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande"
+expect {${carona2ID}} localizarCarona idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo"
+expect {${carona3ID}} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande"
 
 #Todas as caronas que irá acontecer e que tem como origem João pessoa.
 expect {${carona4ID}, ${carona3ID}} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino=""
 
 #Todas as caronas que irá acontecer e que tem como destino São Paulo.
-expect ${carona2ID} localizarCarona idSessao=${sessaoMark} origem="" destino="São Paulo"
+expect {${carona2ID}} localizarCarona idSessao=${sessaoMark} origem="" destino="São Paulo"
 
 #Todas as caronas que irá acontecer.
-expect {${carona2ID}, ${carona1ID}, ${carona4ID}, ${carona3ID}} localizarCarona idSessao=${sessaoMark} origem="" destino=""
+expect {${carona1ID},${carona2ID},${carona3ID},${carona4ID},${carona5ID}} localizarCarona idSessao=${sessaoMark} origem="" destino=""
 
 #Cadastro de carona com entradas inválidas, Nenhuma carona aqui deve ser cadastrada.
 expectError "Sessão inválida" cadastrarCarona idSessao= origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
