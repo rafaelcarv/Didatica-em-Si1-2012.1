@@ -29,7 +29,7 @@ perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
-expect "São Francisco para Palo Alto, no dia 12/09/2012, as 21:00" getAtributoPerfil login="mark" atributo="historico de caronas"
+expect [${carona1ID}] getAtributoPerfil login="mark" atributo="historico de caronas"
 expect "" getAtributoPerfil login="mark" atributo="historico de vagas em caronas"
 expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
 expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
