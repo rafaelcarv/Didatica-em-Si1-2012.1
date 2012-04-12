@@ -34,8 +34,8 @@ expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCarona
 carona4ID=cadastrarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Lagoa Seca" data="25/11/2016" hora="05:00" vagas=4
 expect "João Pessoa para Lagoa Seca, no dia 25/11/2016, as 05:00" getCarona idCarona=${carona4ID}
 
-carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Lagoa Seca" data="25/11/2016" hora="05:00" vagas=4
-expect "João Pessoa para Lagoa Seca, no dia 25/11/2016, as 05:00" getCarona idCarona=${carona5ID}
+carona5ID=cadastrarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Lagoa Seca" data="25/11/2017" hora="05:00" vagas=4
+expect "João Pessoa para Lagoa Seca, no dia 25/11/2017, as 05:00" getCarona idCarona=${carona5ID}
 
 #Localizar carona.
 expect {} localizarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto"
@@ -43,7 +43,7 @@ expect {${carona2ID}} localizarCarona idSessao=${sessaoMark} origem="Rio de Jane
 expect {${carona3ID}} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande"
 
 #Todas as caronas que irá acontecer e que tem como origem João pessoa.
-expect {${carona4ID},${carona3ID}} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino=""
+expect {${carona3ID},${carona4ID},${carona5ID}} localizarCarona idSessao=${sessaoMark} origem="João Pessoa" destino=""
 
 #Todas as caronas que irá acontecer e que tem como destino São Paulo.
 expect {${carona2ID}} localizarCarona idSessao=${sessaoMark} origem="" destino="São Paulo"
