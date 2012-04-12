@@ -47,9 +47,10 @@ expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 #Review de carona.
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona4ID} loginCaroneiro=bill review="faltou"
 perfilBill=visualizaPerfil idSessao=${sessaoBill} login=bill
-expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
-expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
-expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
+expect ""William Henry Gates III" " getAtributoPerfil login="mark" atributo="nome"
+expect "Medina, Washington" getAtributoPerfil login="mark" atributo="endereco"
+expect "billzin@gmail.com" getAtributoPerfil login="mark" atributo="email"
+expect "Campina Grande para João Pessoa, no dia 02/06/2012, as 12:00 | Campina Grande para João Pessoa, no dia 04/06/2012, as 16:00" getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
 expect "" getAtributoPerfil login="mark" atributo="historico de caronas"
 expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
 expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
@@ -58,10 +59,11 @@ expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caron
 
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="não faltou"
 perfilBill=visualizaPerfil idSessao=${sessaoBill} login=bill
-expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
-expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
-expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
-expect "" getAtributoPerfil login="mark" atributo="historico de caronas"
+expect ""William Henry Gates III" " getAtributoPerfil login="bill" atributo="nome"
+expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
+expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
+expect "Campina Grande para João Pessoa, no dia 02/06/2012, as 12:00 | Campina Grande para João Pessoa, no dia 04/06/2012, as 16:00" getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
+expect "" getAtributoPerfil login="bill" atributo="historico de caronas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas seguras e tranquilas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas que não funcionaram"
 expect "1" getAtributoPerfil login="bill" atributo="faltas em vagas de caronas"
@@ -74,4 +76,3 @@ expectError "Opção inválida." reviewVagaEmCarona idSessao=${sessaoMark} idCar
 sessaoVader=abrirSessao login="vader" senha="d@rth"
 
 expectError "Usuário não possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=vader review="não funcionou"
-
