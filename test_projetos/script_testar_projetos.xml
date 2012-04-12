@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!-- Instalar easyaccept no Maven -->
+<!-- mvn install:install-file -Dfile=easyaccept.jar -DgroupId=ufcg.edu.br -DartifactId=easyaccept -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -->
+	
+<project name="Teste Projetos SI1" default="testar_projeto" basedir=".">
+	 	
+	<!-- NAO EDITAR -->
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="target" location="target"/>
+	<property name="dist"  location="dist"/>
+	<property name="git.dir" location="git_dir"/>
+	<property name="git.scripts.dir" location="git_dir/scripts"/>
+	
+	<!-- EDITAR -->
+	<!-- Esta variavel deve ser editada com o diretorio onde o seu maven esta instalado -->
+	<property name="maven.home" location="C:\Program Files\springsource\maven-2.2.1.RELEASE"/>
+	
+	<!-- Esta variavel deve ser editada com o diretorio onde os scripts de didatica estao instalados -->
+	<property name="scripts.dir" location="C:\Users\Arthur Marques\Didatica-em-Si1-2012.1\scripts"/>
+	
+	<!-- COMANDOS MAVEN NO ANT -->
+	<macrodef name="maven">
+	    <attribute name="options" default="" />
+	    <attribute name="goal" />
+	    <attribute name="basedir" />
+	    <attribute name="resultproperty" default="maven.result" />
+	    <element name="args" implicit="true" optional="true" />
+	    <sequential>
+	      <java classname="org.codehaus.classworlds.Launcher" fork="true"
+	            dir="@{basedir}" resultproperty="@{resultproperty}">
+	        <jvmarg value="-Xmx512m"/>
+	        <classpath>
+	          <fileset dir="${maven.home}/boot">
+	            <include name="*.jar" />
+	          </fileset>
+	          <fileset dir="${maven.home}/lib">
+	            <include name="*.jar" />
+	          </fileset>
+	        </classpath>
+	        <sysproperty key="classworlds.conf" value="${maven.home}/bin/m2.conf" />
+	        <sysproperty key="maven.home" value="${maven.home}" />
+	        <arg line="--batch-mode @{options} @{goal}" />
+	      </java>
+	    </sequential>
+	  </macrodef>
+	
+	<!-- COMANDOS GIT NO ANT -->
+	<macrodef name = "git">
+	    <attribute name = "command" />
+	    <attribute name = "dir" default = "" />
+	    <element name = "args" optional = "true" />
+	    <sequential>
+	        <echo message = "git @{command}" />
+	        <exec executable = "git" dir = "@{dir}">
+	            <arg value = "@{command}" />
+	            <args/>
+	        </exec>
+	    </sequential>
+	</macrodef>
+	
+	<macrodef name = "git-clone-pull">
+	    <attribute name = "repository" />
+	    <attribute name = "dest" />
+	    <sequential>
+	        <git command = "clone">
+	            <args>
+	                <arg value = "@{repository}" />
+	                <arg value = "@{dest}" />
+	            </args>
+	        </git>
+	        <git command = "pull" dir = "@{dest}" />
+	    </sequential>
+	</macrodef>
+
+	<!-- SCRIPT -->
+	<target name="testar_projeto">
+		
+		<!-- baixa o projeto do aluno -->		
+		<!-- ex de dir: https://github.com/antonioricardojr/si1Project.git -->		
+		
+		<delete dir="${git.dir}"/>
+		<input message="Insira a URL do repositorio GIT a ser testado: " addproperty="git.repo" />
+		
+		<git command = "clone">
+		    <args>
+		        <arg value = "${git.repo}" />
+		        <arg value = "${git.dir}" />
+		    </args>
+		</git>
+		
+		<!-- exclue os scripts dos alunos -->
+		<delete includeEmptyDirs="true">
+		    <fileset dir="${git.scripts.dir}"/>
+		  </delete>
+		
+		<!-- adiciona os scripts do repositorio -->
+		<copy todir="${git.scripts.dir}">
+		    <fileset dir="${scripts.dir}" excludes="**/*.xml"/>
+		  </copy>
+		
+		<!-- compila ou executa o projeto baixado com o maven -->		
+		 <maven basedir="${git.dir}"
+		             options=""
+		             goal="test"
+		             resultproperty="maven.build.result"/>
+	</target>
+</project>
