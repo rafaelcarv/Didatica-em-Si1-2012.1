@@ -58,21 +58,16 @@ expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 expect "Acude Velho" idCarona={carona4ID} atributo="Ponto de Encontro"
 
 #Tentar aceitar novamente a requisição
+sessaoBill=abrirSessao login="bill" senha="billz@o"
 expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
-#Iniciar sessão com outro usuário.
-criarUsuario login="bill" senha="b1ll" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
-sessaoBill=abrirSessao login="bill" senha="b1ll"
-
 #Sugerir ponto de encontro para uma carona
 sugestaoID = sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
-encerrarSessao login="bill"
 
 #Resposta a requisicao
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 respostaID = responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos="Acude Velho;Parque da Crianca"
-encerrarSessao login="mark"
 
 #Requisitar vaga na carona.
 desistirRequisicao idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID}
@@ -81,3 +76,5 @@ desistirRequisicao idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sug
 expectError "Ponto Inválido" sugestaoID = sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
 expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos=""
 expectError "Ponto Inválido" solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
+encerrarSessao login="mark"
+encerrarSessao login="bill"
