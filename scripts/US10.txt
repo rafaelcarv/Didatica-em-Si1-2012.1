@@ -41,6 +41,7 @@ expect [${carona5ID},${carona6ID}] localizarCaronaMunicipal idSessao=${sessaoMar
 expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} origem="Açude Velho" destino="Shopping Boulevard"
 expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} cidade="" origem="Açude Velho" destino="Shopping Boulevard"
 
-
+encerrarSistema
+quit
 
 

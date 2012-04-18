@@ -78,3 +78,6 @@ expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMa
 expectError "Ponto Inválido" solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
 encerrarSessao login="mark"
 encerrarSessao login="bill"
+
+encerrarSistema
+quit

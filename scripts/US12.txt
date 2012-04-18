@@ -55,5 +55,6 @@ expect 0 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 #Enviar email
 expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A carona foi rejeitada por falta de vaga"
 
-
+encerrarSistema
+quit
 

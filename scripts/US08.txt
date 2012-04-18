@@ -76,3 +76,6 @@ expectError "Opção inválida." reviewVagaEmCarona idSessao=${sessaoMark} idCar
 sessaoVader=abrirSessao login="vader" senha="d@rth"
 
 expectError "Usuário não possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=vader review="não funcionou"
+
+encerrarSistema
+quit

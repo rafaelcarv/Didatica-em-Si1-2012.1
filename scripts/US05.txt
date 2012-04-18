@@ -59,3 +59,6 @@ expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 #Tentar rejeitar novamente a requisição
 expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
+
+encerrarSistema
+quit
