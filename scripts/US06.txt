@@ -25,7 +25,7 @@ expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caron
 
 carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
 
-perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
+perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
