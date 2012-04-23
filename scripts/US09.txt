@@ -46,7 +46,7 @@ expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
 #Review de carona.
 reviewCarona idSessao=${sessaoBill} idCarona=${carona4ID} review="segura e tranquila"
-perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
+perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
@@ -57,7 +57,7 @@ expect "0" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
 expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
 
 reviewCarona idSessao=${sessaoBill} idCarona=${carona5ID} review="não funcionou"
-perfilMark=visualizaPerfil idSessao=${sessaoMark} login=mark
+perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoPerfil login="mark" atributo="endereco"
 expect "mark@facebook.com" getAtributoPerfil login="mark" atributo="email"
