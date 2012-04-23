@@ -47,15 +47,15 @@ expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 #Review de carona.
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona4ID} loginCaroneiro=bill review="faltou"
 perfilBill=visualizaPerfil idSessao=${sessaoBill} login=bill
-expect ""William Henry Gates III" " getAtributoPerfil login="mark" atributo="nome"
-expect "Medina, Washington" getAtributoPerfil login="mark" atributo="endereco"
-expect "billzin@gmail.com" getAtributoPerfil login="mark" atributo="email"
+expect ""William Henry Gates III" " getAtributoPerfil login="bill" atributo="nome"
+expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
+expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
 expect [${carona4ID}, ${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
-expect "" getAtributoPerfil login="mark" atributo="historico de caronas"
-expect "0" getAtributoPerfil login="mark" atributo="caronas seguras e tranquilas"
-expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram"
-expect "1" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
-expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
+expect "" getAtributoPerfil login="bill" atributo="historico de caronas"
+expect "0" getAtributoPerfil login="bill" atributo="caronas seguras e tranquilas"
+expect "0" getAtributoPerfil login="bill" atributo="caronas que não funcionaram"
+expect "1" getAtributoPerfil login="bill" atributo="faltas em vagas de caronas"
+expect "0" getAtributoPerfil login="bill" atributo="presenças em vagas de caronas"
 
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="não faltou"
 perfilBill=visualizaPerfil idSessao=${sessaoBill} login=bill
