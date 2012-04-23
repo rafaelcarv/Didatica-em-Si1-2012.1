@@ -47,7 +47,7 @@ expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 #Review de carona.
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona4ID} loginCaroneiro=bill review="faltou"
 perfilBill=visualizarPerfil idSessao=${sessaoBill} login=bill
-expect ""William Henry Gates III" " getAtributoPerfil login="bill" atributo="nome"
+expect "William Henry Gates III" getAtributoPerfil login="bill" atributo="nome"
 expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
 expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
 expect [${carona4ID}, ${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
@@ -59,7 +59,7 @@ expect "0" getAtributoPerfil login="bill" atributo="presenças em vagas de caron
 
 reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="não faltou"
 perfilBill=visualizarPerfil idSessao=${sessaoBill} login=bill
-expect ""William Henry Gates III" " getAtributoPerfil login="bill" atributo="nome"
+expect "William Henry Gates III" getAtributoPerfil login="bill" atributo="nome"
 expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
 expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
 expect [${carona4ID}, ${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
