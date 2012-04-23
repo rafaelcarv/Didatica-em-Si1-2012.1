@@ -38,11 +38,11 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Tentar aceitar novamente a requisição
-expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao1ID}
+expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.
@@ -53,11 +53,11 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
 
 #Rejeitar requisição
-rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+rejeitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
 #Tentar rejeitar novamente a requisição
-expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoBill} idSolicitacao=${solicitacao2ID}
+expectError "Solicitação inexistente" rejeitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 2 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
 encerrarSistema
