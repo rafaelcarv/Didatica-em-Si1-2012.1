@@ -70,7 +70,7 @@ expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caron
 expectError "Opção inválida." reviewCarona idSessao=${sessaoBill} idCarona=${carona5ID} review="bacana"
 
 #Iniciar sessão com outro usuário.
-sessaoVader=abrirSessao login="vader" senha="d@rth"
+sessaoVader=abrirSessao login="vader" senha="d4rth"
 
 expectError "Usuário não possui vaga na carona." reviewCarona idSessao=${sessaoVader} idCarona=${carona5ID} review="não funcionou"
 encerrarSistema
