@@ -37,6 +37,9 @@ expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atr
 expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
+#Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
 #Aceitar requisição
 aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
