@@ -63,7 +63,7 @@ expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoBill
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Sugerir ponto de encontro para uma carona
-sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
+sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona5ID} pontos="Acude Velho; Hiper Bompreco"
 
 #Resposta a requisicao
 sessaoMark=abrirSessao login="mark" senha="m@rk"
