@@ -50,7 +50,7 @@ perfilBill=visualizarPerfil idSessao=${sessaoBill} login=bill
 expect "William Henry Gates III" getAtributoPerfil login="bill" atributo="nome"
 expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
 expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
-expect [${carona4ID}, ${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
+expect [${carona4ID},${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
 expect "" getAtributoPerfil login="bill" atributo="historico de caronas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas seguras e tranquilas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas que não funcionaram"
@@ -62,7 +62,7 @@ perfilBill=visualizarPerfil idSessao=${sessaoBill} login=bill
 expect "William Henry Gates III" getAtributoPerfil login="bill" atributo="nome"
 expect "Medina, Washington" getAtributoPerfil login="bill" atributo="endereco"
 expect "billzin@gmail.com" getAtributoPerfil login="bill" atributo="email"
-expect [${carona4ID}, ${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
+expect [${carona4ID},${carona5ID}] getAtributoPerfil login="bill" atributo="historico de vagas em caronas"
 expect "" getAtributoPerfil login="bill" atributo="historico de caronas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas seguras e tranquilas"
 expect "0" getAtributoPerfil login="bill" atributo="caronas que não funcionaram"
@@ -70,12 +70,12 @@ expect "1" getAtributoPerfil login="bill" atributo="faltas em vagas de caronas"
 expect "1" getAtributoPerfil login="bill" atributo="presenças em vagas de caronas"
 
 #possiveis erros
-expectError "Opção inválida." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=bill review="não dou mais carona"
+expectError "Opção inválida." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=bill review="não dou mais carona"
 
 #Iniciar sessão com outro usuário.
 sessaoVader=abrirSessao login="vader" senha="d4rth"
 
-expectError "Usuário não possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} oginCaroneiro=vader review="não funcionou"
+expectError "Usuário não possui vaga na carona." reviewVagaEmCarona idSessao=${sessaoMark} idCarona=${carona5ID} loginCaroneiro=vader review="não funcionou"
 
 encerrarSistema
 quit
