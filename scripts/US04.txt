@@ -55,7 +55,7 @@ encerrarSessao login="bill"
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
-expect "Acude Velho" getAtributoCarona idCarona={carona4ID} atributo="Ponto de Encontro"
+expect "Acude Velho" getAtributoCarona idCarona=${carona4ID} atributo="Ponto de Encontro"
 
 #Tentar aceitar novamente a requisição
 sessaoBill=abrirSessao login="bill" senha="billz@o"
