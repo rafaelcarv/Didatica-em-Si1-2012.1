@@ -52,6 +52,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 expect "Steve Paul Jobs" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
+sessaoMark=abrirSessao login="mark" senha="m@rk"
 aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
