@@ -16,11 +16,11 @@ zerarSistema
 
 #Criar usuário.
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
-criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" endereco="Palo Alto, California" email="jobs@apple.com"
+criarUsuario login="steve" senha="5t3v3" nome="Steve Paul Jobs" endereco="Palo Alto, California" email="jobs@apple.com"
 
 #Iniciar sessão.
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
-expect "Steven Paul Jobs" getAtributoUsuario login="steve" atributo="nome"
+expect "Steve Paul Jobs" getAtributoUsuario login="steve" atributo="nome"
 expect "Palo Alto, California" getAtributoUsuario login="steve" atributo="endereco"
 
 sessaoMark=abrirSessao login="mark" senha="m@rk"
@@ -70,7 +70,7 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
 
 #Recupera Informacoes Usuario
-expect "Steven Paul Jobs" getAtributoUsuario login="steve" atributo="nome"
+expect "Steve Paul Jobs" getAtributoUsuario login="steve" atributo="nome"
 expect "Palo Alto, California" getAtributoUsuario login="steve" atributo="endereco"
 expect "Mark Zuckerberg" getAtributoUsuario login="mark" atributo="nome" 
 expect "Palo Alto, California" getAtributoUsuario login="mark" atributo="endereco"
