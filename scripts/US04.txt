@@ -75,7 +75,6 @@ desistirRequisicao idSessao=${sessaoBill} idCarona=${carona4ID} idSolicitacao=${
 
 expectError "Ponto Inválido" sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
 expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos=""
-expectError "Ponto Inválido" solicitacao1ID=solicitarVagaPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} ponto="Acude Velho"
 encerrarSessao login="mark"
 encerrarSessao login="bill"
 
