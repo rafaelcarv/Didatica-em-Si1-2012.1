@@ -73,7 +73,7 @@ respostaID=responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${caro
 desistirRequisicao idSessao=${sessaoBill} idCarona=${carona4ID} idSolicitacao=${solicitacao1ID}
 
 
-expectError "Ponto Inválido" sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos="Acude Velho; Hiper Bompreco"
+expectError "Ponto Inválido" sugestaoID=sugerirPontoEncontro idSessao=${sessaoBill} idCarona=${carona4ID} pontos=""
 expectError "Ponto Inválido" responderSugestaoPontoEncontro idSessao=${sessaoMark} idCarona=${carona4ID} idSugestao=${sugestaoID} pontos=""
 encerrarSessao login="mark"
 encerrarSessao login="bill"
