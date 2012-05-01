@@ -107,7 +107,7 @@ expect {${carona4ID},${carona5ID},${carona6ID}} getTodasCaronasUsuario idSessao=
 
 #Recupera solicitacoes confirmadas
 expect {${solicitacao1ID}} getSolicitacoesConfirmadas idSessao=${sessaoMark} idCarona=${carona2ID}
-expect ${} getSolicitacoesPendentes idCarona=${carona2ID}
+expect ${} getSolicitacoesPendentes idSessao=${sessaoMark} idCarona=${carona2ID}
 expect "[Acude Velho;Hiper Bompreco]" getPontosSugeridos idSessao=${sessaoMark} idCarona=${carona2ID}
 
 #Recupera pontos sugeridos
