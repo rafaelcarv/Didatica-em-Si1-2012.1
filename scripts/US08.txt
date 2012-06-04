@@ -30,7 +30,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.
@@ -41,7 +41,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} 
 expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
 
 #Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 expect 1 getAtributoCarona idCarona=${carona5ID} atributo="vagas"
 
 #Review de carona.
