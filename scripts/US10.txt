@@ -33,12 +33,12 @@ expect true  getAtributoCarona idCarona=${carona6ID} atributo="ehMunicipal"
 #Iniciar sessão com outro usuário.
 sessaoBill=abrirSessao login="bill" senha="bilz@o"
 
-expect ${carona1ID} localizarCarona idSessao=${sessaoBill} origem="Campina Grande" destino="João Pessoa"
-expect ${carona4ID} localizarCaronaMunicipal idSessao=${sessaoBill} cidade="Campina Grande" origem="Açude Velho" destino="Shopping Boulevard"
-expect [${carona5ID},${carona6ID}] localizarCaronaMunicipal idSessao=${sessaoMark} cidade="João Pessoa"
+expect {${carona1ID}} localizarCarona idSessao=${sessaoBill} origem="Campina Grande" destino="João Pessoa"
+expect {${carona4ID}} localizarCaronaMunicipal idSessao=${sessaoBill} cidade="Campina Grande" origem="Açude Velho" destino="Shopping Boulevard"
+expect {${carona5ID},${carona6ID}} localizarCaronaMunicipal idSessao=${sessaoMark} cidade="João Pessoa"
 
 #Testa possiveis erros no sistema.
-expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} origem="Açude Velho" destino="Shopping Boulevard"
+expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} cidade= origem="Açude Velho" destino="Shopping Boulevard"
 expectError "Cidade inexistente" localizarCaronaMunicipal idSessao=${sessaoBill} cidade="" origem="Açude Velho" destino="Shopping Boulevard"
 
 encerrarSistema

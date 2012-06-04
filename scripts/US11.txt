@@ -38,8 +38,8 @@ expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} orige
 expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="!" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
 expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="!" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
 expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="" horaInicio="06:00" horaFim="16:00"
-expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data= horaInicio="06:00" horaFim="16:00"
+expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="" horaInicio="06:00" horaFim="16:00"
+expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="João Pessoa" data= horaInicio="06:00" horaFim="16:00"
 
 
 #Cadastrar caronas.
@@ -48,7 +48,7 @@ carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="João Pessoa" destino="
 carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destino="Campina Grande" data="25/06/2012" hora="15:00" vagas=1
 
 #Verificar perfil.
-expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoZezito}
+expect "[]" verificarMensagensPerfil idSessao=${sessaoZezito}
 expect "[]" verificarMensagensPerfil idSessao=${sessaoManelito}
 expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
 expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}

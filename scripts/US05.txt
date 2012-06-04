@@ -41,11 +41,11 @@ expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicita
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Tentar aceitar novamente a requisição
-expectError "Solicitação inexistente" aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+expectError "Solicitação inexistente" aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Requisitar vaga na carona.

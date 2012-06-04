@@ -41,7 +41,7 @@ encerrarSessao login="steve"
 
 #Sugerir ponto de encontro para uma carona
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
-sugestaoID=sugerirPontoEncontro idSessao=${sessaoSteve} idCarona=${carona2ID} pontos="[Acude Velho;Hiper Bompreco]"
+sugestaoID=sugerirPontoEncontro idSessao=${sessaoSteve} idCarona=${carona2ID} pontos="Acude Velho;Hiper Bompreco"
 
 
 #Requisitar vaga na carona.
@@ -53,7 +53,7 @@ expect "Steve Paul Jobs" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 
 #Aceitar requisição
 sessaoMark=abrirSessao login="mark" senha="m@rk"
-aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 3 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Encerrar a sessao.
@@ -107,7 +107,7 @@ expect {${carona4ID},${carona5ID},${carona6ID}} getTodasCaronasUsuario idSessao=
 
 #Recupera solicitacoes confirmadas
 expect {${solicitacao1ID}} getSolicitacoesConfirmadas idSessao=${sessaoMark} idCarona=${carona2ID}
-expect ${} getSolicitacoesPendentes idSessao=${sessaoMark} idCarona=${carona2ID}
+expect {} getSolicitacoesPendentes idSessao=${sessaoMark} idCarona=${carona2ID}
 expect "[Acude Velho;Hiper Bompreco]" getPontosSugeridos idSessao=${sessaoMark} idCarona=${carona2ID}
 
 #Recupera pontos sugeridos
