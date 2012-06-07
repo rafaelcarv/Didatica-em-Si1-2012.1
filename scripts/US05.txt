@@ -41,7 +41,7 @@ expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicita
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Aceitar requisição
-aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 2 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Tentar aceitar novamente a requisição
