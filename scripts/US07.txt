@@ -53,7 +53,7 @@ expect "Steve Paul Jobs" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} 
 
 #Aceitar requisição
 sessaoMark=abrirSessao login="mark" senha="m@rk"
-aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 3 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Encerrar a sessao.
