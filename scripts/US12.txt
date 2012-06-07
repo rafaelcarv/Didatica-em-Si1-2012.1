@@ -31,7 +31,7 @@ expect "Bill Clinton" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atr
 expect true enviarEmail idSessao=${sessaoMark} destino="bill@gmail.com" message="A solicitação foi recebida"
 
 #Aceitar requisição
-aceitarSolicitacaoPontoEncontro idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
 expect 0 getAtributoCarona idCarona=${carona4ID} atributo="vagas"
 
 #Enviar email
