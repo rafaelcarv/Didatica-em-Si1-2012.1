@@ -23,7 +23,7 @@ expect "0" getAtributoPerfil login="mark" atributo="caronas que não funcionaram
 expect "0" getAtributoPerfil login="mark" atributo="faltas em vagas de caronas"
 expect "0" getAtributoPerfil login="mark" atributo="presenças em vagas de caronas"
 
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2013" hora="21:00" vagas=2
 
 perfilMark=visualizarPerfil idSessao=${sessaoMark} login=mark
 expect "Mark Zuckerberg" getAtributoPerfil login="mark" atributo="nome"

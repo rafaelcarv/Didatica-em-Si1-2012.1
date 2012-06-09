@@ -16,12 +16,12 @@ criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #Cadastrar caronas.
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2012" hora="12:00" vagas=3
-carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="Souza" destino="João Pessoa" data="08/06/2012" hora="14:00" vagas=2
-carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Patos" data="25/06/2012" hora="8:00" vagas=1
-carona4ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Açude Velho" destino="Shopping Boulevard" cidade="Campina Grande" data="04/06/2012" hora="20:00" vagas=2
-carona5ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Praça do Cajú" destino="Villa São Paulo" cidade="João Pessoa" data="04/06/2012" hora="22:00" vagas=2
-carona6ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Manaíra Shopping" destino="Parque Solon de Lucena" cidade="João Pessoa" data="04/06/2012" hora="14:00" vagas=2
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="02/06/2013" hora="12:00" vagas=3
+carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="Souza" destino="João Pessoa" data="08/06/2013" hora="14:00" vagas=2
+carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="Patos" data="25/06/2013" hora="8:00" vagas=1
+carona4ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Açude Velho" destino="Shopping Boulevard" cidade="Campina Grande" data="04/06/2013" hora="20:00" vagas=2
+carona5ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Praça do Cajú" destino="Villa São Paulo" cidade="João Pessoa" data="04/06/2013" hora="22:00" vagas=2
+carona6ID=cadastrarCaronaMunicipal idSessao=${sessaoMark} origem="Manaíra Shopping" destino="Parque Solon de Lucena" cidade="João Pessoa" data="04/06/2013" hora="14:00" vagas=2
 
 expect false getAtributoCarona idCarona=${carona1ID} atributo="ehMunicipal"
 expect false getAtributoCarona idCarona=${carona2ID} atributo="ehMunicipal"

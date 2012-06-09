@@ -27,30 +27,30 @@ sessaoMariano=abrirSessao login="mariano0ab" senha="mariozinho"
 sessaoMarcio=abrirSessao login="caba" senha="Marcin"
 
 #Mostrar interesse.
-idInteresse1=cadastrarInteresse idSessao=${sessaoZezito} origem="João Pessoa" destino="Campina Grande" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-idInteresse2=cadastrarInteresse idSessao=${sessaoManelito} origem="Campina Grande" destino="João Pessoa" data="25/06/2012" horaInicio="11:00" horaFim="18:00"
-idInteresse3=cadastrarInteresse idSessao=${sessaoMariano} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" horaInicio="" horaFim="18:00"
+idInteresse1=cadastrarInteresse idSessao=${sessaoZezito} origem="João Pessoa" destino="Campina Grande" data="23/06/2013" horaInicio="06:00" horaFim="16:00"
+idInteresse2=cadastrarInteresse idSessao=${sessaoManelito} origem="Campina Grande" destino="João Pessoa" data="25/06/2013" horaInicio="11:00" horaFim="18:00"
+idInteresse3=cadastrarInteresse idSessao=${sessaoMariano} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" horaInicio="" horaFim="18:00"
 idInteresse4=cadastrarInteresse idSessao=${sessaoMarcio} origem="Campina Grande" destino="João Pessoa" data="" horaInicio="" horaFim="18:00"
 
 #Para os horários o sistema poderá deixar o usuário livre, ou seja, ele poderá não colocar horaInicio(pegará todos a partir das 0h do dia especificado
 # ou horaFim(pegará todos até às 11:59 do dia especificado) que a consulta será realizada. data="" retornará todas as caronas que tem marcadas da data atual em diante.
-expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="-" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="!" destino="João Pessoa" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="!" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
-expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="23/06/2012" horaInicio="06:00" horaFim="16:00"
+expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="-" destino="João Pessoa" data="23/06/2013" horaInicio="06:00" horaFim="16:00"
+expectError "Origem inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="!" destino="João Pessoa" data="23/06/2013" horaInicio="06:00" horaFim="16:00"
+expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="!" data="23/06/2013" horaInicio="06:00" horaFim="16:00"
+expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="23/06/2013" horaInicio="06:00" horaFim="16:00"
 expectError "Destino inválido" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="-" data="" horaInicio="06:00" horaFim="16:00"
 expectError "Data inválida" cadastrarInteresse idSessao=${sessaoZezito} origem="Campina Grande" destino="João Pessoa" data= horaInicio="06:00" horaFim="16:00"
 
 
 #Cadastrar caronas.
-carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="Campina Grande" destino="João Pessoa" data="23/06/2012" hora="16:00" vagas=3
-carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="João Pessoa" destino="Campina Grande" data="25/06/2012" hora="14:00" vagas=4
-carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destino="Campina Grande" data="25/06/2012" hora="15:00" vagas=1
+carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" vagas=3
+carona1ID=cadastrarCarona idSessao=${sessaoJuca} origem="João Pessoa" destino="Campina Grande" data="25/06/2013" hora="14:00" vagas=4
+carona1ID=cadastrarCarona idSessao=${sessaoMariano} origem="João Pessoa" destino="Campina Grande" data="25/06/2013" hora="15:00" vagas=1
 
 #Verificar perfil.
 expect "[]" verificarMensagensPerfil idSessao=${sessaoZezito}
 expect "[]" verificarMensagensPerfil idSessao=${sessaoManelito}
-expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
-expect "[Carona cadastrada no dia 23/06/2012, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}
+expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMariano}
+expect "[Carona cadastrada no dia 23/06/2013, às 16:00 de acordo com os seus interesses registrados. Entrar em contato com jucaPeroba@gmail.com]" verificarMensagensPerfil idSessao=${sessaoMarcio}
 encerrarSistema
 quit

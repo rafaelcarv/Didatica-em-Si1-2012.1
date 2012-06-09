@@ -28,11 +28,11 @@ expect "Mark Zuckerberg" getAtributoUsuario login="mark" atributo="nome"
 expect "Palo Alto, California" getAtributoUsuario login="mark" atributo="endereco"
 
 #Cadastrar caronas.
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Cajazeiras" destino="Patos" data="20/07/2012" hora="14:00" vagas=4
-carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2012" hora="21:00" vagas=2
-carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="01/06/2012" hora="12:00" vagas=1
-carona4ID=cadastrarCarona idSessao=${sessaoSteve} origem="Campina Grande" destino="João Pessoa" data="02/06/2012" hora="12:00" vagas=3
-carona5ID=cadastrarCarona idSessao=${sessaoSteve} origem="Campina Grande" destino="João Pessoa" data="04/06/2012" hora="16:00" vagas=2
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Cajazeiras" destino="Patos" data="20/07/2013" hora="14:00" vagas=4
+carona2ID=cadastrarCarona idSessao=${sessaoMark} origem="São Francisco" destino="Palo Alto" data="12/09/2013" hora="21:00" vagas=2
+carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="01/06/2013" hora="12:00" vagas=1
+carona4ID=cadastrarCarona idSessao=${sessaoSteve} origem="Campina Grande" destino="João Pessoa" data="02/06/2013" hora="12:00" vagas=3
+carona5ID=cadastrarCarona idSessao=${sessaoSteve} origem="Campina Grande" destino="João Pessoa" data="04/06/2013" hora="16:00" vagas=2
 carona6ID=cadastrarCarona idSessao=${sessaoSteve} origem="Leeds" destino="Londres" data="10/02/2013" hora="10:00" vagas=3
 
 #Encerrar a sessao de mark.
