@@ -1,0 +1,111 @@
+#User Story 16 - Preferencia para caroneiros conhecidos
+
+# Da US09: Review de caronas: os caroneiros podem, após uma carona, colocar um comentário no sistema referente àquela carona, e dar ou não um voto de "segura e tranquila" para a carona, 
+# ou marcá-la como "não funcionou", que significa que o motorista fez algo errado ao seu ver. A quantidade de caronas seguras e tranquilas e que não funcionaram devem aparecer no perfil do motorista.
+# 
+# US16: Ao cadastrar uma carona, ela pode ser marcada como preferencial. Ao cadastrar uma carona preferencial, todos os caroneiros que deram uma review positiva ao dono de uma carona tem 24h de prioridade 
+# na fila de vagas da carona. Outros caroneiros so poderao solicitar uma vaga apos este periodo.
+
+
+# Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
+criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
+criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death Star I" email="darthvader@empire.com"
+criarUsuario login="anakin" senha="d4rth" nome="Anakin Skywalker" endereco="Dark Side" email="anakin@darkside.com"
+
+# Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#Cadastrar caronas.
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="20/06/2013" hora="12:00" vagas=3
+
+
+# Iniciar sessão com outros usuários.
+sessaoBill=abrirSessao login="bill" senha="bilz@o"
+sessaoVader=abrirSessao login="vader" senha="d4rth"
+sessaoAnakin=abrirSessao login="anakin" senha="d4rth"
+
+# Requisitar vaga na carona.
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao2ID=solicitarVaga idSessao=${sessaoVader} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+expect 1 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao3ID=solicitarVaga idSessao=${sessaoAnakin} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao3ID}
+expect 0 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Review de carona.
+reviewCarona idSessao=${sessaoBill} idCarona=${carona1ID} review="segura e tranquila"
+reviewCarona idSessao=${sessaoVader} idCarona=${carona1ID} review="não funcionou"
+
+# Apos reviews Carona preferencial é cadastrada
+carona3ID=cadastrarCarona idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande" data="30/06/2013" hora="16:00" vagas=3
+definirCaronaPreferencial idCarona=${carona3ID}
+
+# Verificar caronas preferencias
+expect true isCaronaPreferencial idCarona=${carona3ID}
+expect false isCaronaPreferencial idCarona=${carona1ID}
+
+# Validar usuarios que podem solicitar vaga na carona preferencial
+expect {${sessaoBill}} getUsuariosPreferenciaisCarona idCarona=${carona3ID}
+
+# Usuario preferencial requisita vaga na carona.
+solicitacao4ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona3ID}
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="origem"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao4ID}
+expect 2 getAtributoCarona idCarona=${carona3ID} atributo="vagas"
+
+# Usuario NAO preferencial requisita vaga na carona.
+expectError "Usuário não está na lista preferencial da carona" solicitarVaga idSessao=${sessaoVader} idCarona=${carona3ID}
+expectError "Usuário não está na lista preferencial da carona" solicitarVaga idSessao=${sessaoAnakin} idCarona=${carona3ID}
+
+# Usuario adiciona review na carona... ele tinha esquecido
+reviewCarona idSessao=${sessaoAnakin} idCarona=${carona1ID} review="segura e tranquila"
+
+# Ele agora esta na lista de usuarios preferenciais
+expect {${sessaoBill}, ${sessaoAnakin}} getUsuariosPreferenciaisCarona idCarona=${carona3ID}
+
+# Usuario preferencial requisita vaga na carona.
+solicitacao5ID=solicitarVaga idSessao=${sessaoAnakin} idCarona=${carona3ID}
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="origem"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="Dono da solicitacao"
+
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao5ID}
+expect 1 getAtributoCarona idCarona=${carona3ID} atributo="vagas"
+
+encerrarSistema
+quit
