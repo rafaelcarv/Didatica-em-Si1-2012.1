@@ -1,0 +1,75 @@
+#User Story 15 - Cadastro de Caronas Relâmpago
+
+zerarSistema
+
+#US15 - Cadastro de caronas relâmpago. Permitir o cadastro de caronas relâmpago no perfil do usuário. 
+#Deve-se informar o local de origem, o local de destino, data, hora de saída e quantidade de caroneiros necessários disponíveis.
+#Carona relâmpago são caronas que garantem a ida e volta dos caroneiros, porém necessitam de um número mínimo de caroneiros para poder acontecer
+
+#Entradas Válidas
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#o método cadastrar carona relâmpago retorna id
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+carona1ID=cadastrarCaronaRelampagoRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3
+expect "Campina Grande" getAtibutoCaronaRelampagoRelampago idCarona=${carona1ID} atributo="origem"
+expect "João Pessoa" getAtibutoCaronaRelampagoRelampago idCarona=${carona1ID} atributo="destino"
+expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}
+expect 3 getMinimoCaroneiros idCarona=${carona1ID}
+
+carona2ID=cadastrarCaronaRelampagoRelampago idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
+expect "31/05/2013" getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="data"
+expect 2 getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="minimoCaroneiros"
+
+carona3ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande" data="25/11/2026" hora="06:59" minimoCaroneiros=4
+expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCaronaRelampago idCarona=${carona3ID}
+
+carona4ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="João Pessoa" destino="Lagoa Seca" data="25/11/2016" hora="05:00" minimoCaroneiros=4
+expect "João Pessoa para Lagoa Seca, no dia 25/11/2016, as 05:00" getCaronaRelampago idCarona=${carona4ID}
+
+carona5ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="João Pessoa" destino="Lagoa Seca" data="25/11/2017" hora="05:00" minimoCaroneiros=4
+expect "João Pessoa para Lagoa Seca, no dia 25/11/2017, as 05:00" getCaronaRelampago idCarona=${carona5ID}
+
+#Cadastro de carona com entradas inválidas, Nenhuma carona aqui deve ser cadastrada.
+expectError "Sessão inválida" cadastrarCaronaRelampago idSessao= origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3
+expectError "Sessão inválida" cadastrarCaronaRelampago idSessao="" origem="Patos" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
+expectError "Sessão inexistente" cadastrarCaronaRelampago idSessao="teste" origem="João Pessoa" destino="Campina Grande" data="25/11/2026" hora="06:59" minimoCaroneiros=4
+
+expectError "Origem inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem= destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3
+expectError "Origem inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
+
+expectError "Destino inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino= data="23/06/2013" hora="16:00" minimoCaroneiros=3
+expectError "Destino inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="" data="31/05/2013" hora="08:00" minimoCaroneiros=2
+
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data= hora="16:00" minimoCaroneiros=3
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="" hora="08:00" minimoCaroneiros=2
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="30/02/2012" hora="16:00" minimoCaroneiros=3
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="31/04/2012" hora="16:00" minimoCaroneiros=3
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="32/12/2012" hora="16:00" minimoCaroneiros=3
+expectError "Data inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="25/12/2011" hora="16:00" minimoCaroneiros=3
+
+
+expectError "Hora inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora= minimoCaroneiros=3
+expectError "Hora inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="" minimoCaroneiros=2
+expectError "Hora inválida" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="seis" minimoCaroneiros=2
+
+expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=
+expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="08:00" minimoCaroneiros="dois"
+expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="08:00" minimoCaroneiros=0
+
+expectError "Identificador do carona é inválido" getAtibutoCaronaRelampago idCarona= atributo="origem"
+expectError "Identificador do carona é inválido" getAtibutoCaronaRelampago idCarona="" atributo="origem"
+expectError "Item inexistente" getAtibutoCaronaRelampago idCarona="xpto" atributo="destino"
+expectError "Atributo inválido" getAtibutoCaronaRelampago idCarona=${carona3ID} atributo=
+expectError "Atributo inválido" getAtibutoCaronaRelampago idCarona=${carona2ID} atributo=""
+expectError "Atributo inexistente" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="xpto"
+expectError "Carona Inexistente" getCaronaRelampago idCarona=""
+expectError "Carona Inválida" getCaronaRelampago idCarona=
+expectError "Carona Inexistente" getCaronaRelampago idCarona="xpto"
+expectError "Trajeto Inexistente" getTrajeto idCarona=""
+expectError "Trajeto Inválida" getTrajeto idCarona=
+expectError "Trajeto Inexistente" getTrajeto idCarona="xpto"
+
+encerrarSistema
+quit
