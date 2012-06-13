@@ -1,0 +1,123 @@
+#User Story 18 - Rank de usuarios
+# 
+# Usuarios possuem pontos +1 para cada avaliacao segura e tranquila e -1 para nao funcionou
+# Sistema deve ordenar usuarios com mais ou menos pontos de acordo com a ordem desejada: crescente, decrescente
+#
+
+
+# Limpar os dados do sistema.
+zerarSistema
+
+#Criar usuário.
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Palo Alto, California" email="mark@facebook.com"
+criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
+criarUsuario login="vader" senha="d4rth" nome="Anakin Skywalker" endereco="Death Star I" email="darthvader@empire.com"
+criarUsuario login="anakin" senha="d4rth" nome="Anakin Skywalker" endereco="Dark Side" email="anakin@darkside.com"
+
+# Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+sessaoBill=abrirSessao login="bill" senha="bilz@o"
+sessaoVader=abrirSessao login="vader" senha="d4rth"
+sessaoAnakin=abrirSessao login="anakin" senha="d4rth"
+
+#Recuperar rank inicial... não existe ngm com prioridade então é na mesma ordem do cadastro
+expect [${sessaoAnakin},${sessaoVader},${sessaoBill},${sessaoMark}] getRankingUsuarios ordem="crescente"
+expect [${sessaoMark}, ${sessaoBill}, ${sessaoVader}, ${sessaoAnakin}] getRankingUsuarios ordem="decrescente"
+
+#Cadastrar caronas.
+carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="20/06/2013" hora="12:00" vagas=3
+
+# Requisitar vaga na carona.
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao1ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+expect 2 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao2ID=solicitarVaga idSessao=${sessaoVader} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao2ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+expect 1 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao3ID=solicitarVaga idSessao=${sessaoAnakin} idCarona=${carona1ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="destino"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao3ID}
+expect 0 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
+
+# Review de carona.
+reviewCarona idSessao=${sessaoBill} idCarona=${carona1ID} review="segura e tranquila"
+reviewCarona idSessao=${sessaoVader} idCarona=${carona1ID} review="não funcionou"
+reviewCarona idSessao=${sessaoAnakin} idCarona=${carona1ID} review="segura e tranquila"
+
+#Recuperar rank ... mark esta na frente
+expect [${sessaoAnakin},${sessaoVader},${sessaoBill},${sessaoMark}] getRankingUsuarios ordem="crescente"
+expect [${sessaoMark},${sessaoBill},${sessaoVader}, ${sessaoAnakin}] getRankingUsuarios ordem="decrescente"
+
+# Apos reviews Carona preferencial é cadastrada
+carona3ID=cadastrarCarona idSessao=${sessaoAnakin} origem="João Pessoa" destino="Campina Grande" data="30/06/2013" hora="16:00" vagas=3
+
+# Requisitar vaga na carona.
+solicitacao4ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona3ID}
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="origem"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="destino"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="Dono da carona"
+expect "William Henry Gates III" getAtributoSolicitacao idSolicitacao=${solicitacao4ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao4ID}
+expect 2 getAtributoCarona idCarona=${carona3ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao5ID=solicitarVaga idSessao=${sessaoMark} idCarona=${carona3ID}
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="origem"
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="destino"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="Dono da carona"
+expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao5ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao5ID}
+expect 1 getAtributoCarona idCarona=${carona3ID} atributo="vagas"
+
+# Requisitar vaga na carona.
+solicitacao6ID=solicitarVaga idSessao=${sessaoVader} idCarona=${carona3ID}
+expect "Campina Grande" getAtributoSolicitacao idSolicitacao=${solicitacao6ID} atributo="origem"
+expect "João Pessoa" getAtributoSolicitacao idSolicitacao=${solicitacao6ID} atributo="destino"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao6ID} atributo="Dono da carona"
+expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao6ID} atributo="Dono da solicitacao"
+
+# Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao6ID}
+expect 0 getAtributoCarona idCarona=${carona3ID} atributo="vagas"
+
+# Todos acham que Anakin é melhor que Mark
+reviewCarona idSessao=${sessaoBill} idCarona=${carona3ID} review="segura e tranquila"
+reviewCarona idSessao=${sessaoVader} idCarona=${carona3ID} review="segura e tranquila"
+reviewCarona idSessao=${sessaoMark} idCarona=${carona3ID} review="segura e tranquila"
+
+#Recuperar rank ... anakin esta na frente e passou mark
+expect [${sessaoVader},${sessaoBill},${sessaoMark},${sessaoAnakin}] getRankingUsuarios ordem="crescente"
+expect [${sessaoAnakin},${sessaoMark},${sessaoBill},${sessaoVader}] getRankingUsuarios ordem="decrescente"
+
+# entradas inválidas
+expectError "Opção inválida." getRankingUsuarios ordem="arriba"
+expectError "Opção inválida." getRankingUsuarios ordem=""
+expectError "Opção inválida." getRankingUsuarios ordem=
+
+encerrarSistema
+quit

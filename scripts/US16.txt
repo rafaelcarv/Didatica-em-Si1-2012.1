@@ -74,7 +74,7 @@ expect true isCaronaPreferencial idCarona=${carona3ID}
 expect false isCaronaPreferencial idCarona=${carona1ID}
 
 # Validar usuarios que podem solicitar vaga na carona preferencial
-expect {${sessaoBill}} getUsuariosPreferenciaisCarona idCarona=${carona3ID}
+expect [${sessaoBill}] getUsuariosPreferenciaisCarona idCarona=${carona3ID}
 
 # Usuario preferencial requisita vaga na carona.
 solicitacao4ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona3ID}
@@ -95,7 +95,7 @@ expectError "Usuário não está na lista preferencial da carona" solicitarVaga 
 reviewCarona idSessao=${sessaoAnakin} idCarona=${carona1ID} review="segura e tranquila"
 
 # Ele agora esta na lista de usuarios preferenciais
-expect {${sessaoBill}, ${sessaoAnakin}} getUsuariosPreferenciaisCarona idCarona=${carona3ID}
+expect [${sessaoBill}, ${sessaoAnakin}] getUsuariosPreferenciaisCarona idCarona=${carona3ID}
 
 # Usuario preferencial requisita vaga na carona.
 solicitacao5ID=solicitarVaga idSessao=${sessaoAnakin} idCarona=${carona3ID}
