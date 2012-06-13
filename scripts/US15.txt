@@ -12,13 +12,14 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 
 #o método cadastrar carona relâmpago retorna id
 sessaoMark=abrirSessao login="mark" senha="m@rk"
-carona1ID=cadastrarCaronaRelampagoRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3
-expect "Campina Grande" getAtibutoCaronaRelampagoRelampago idCarona=${carona1ID} atributo="origem"
-expect "João Pessoa" getAtibutoCaronaRelampagoRelampago idCarona=${carona1ID} atributo="destino"
+carona1ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3 
+expect "Campina Grande" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="origem"
+expect "João Pessoa" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="destino"
 expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}
+expect 2 getAtributoCaronaRelampago idCarona=${carona1ID} atributo="minimoCaroneiros"
 expect 3 getMinimoCaroneiros idCarona=${carona1ID}
 
-carona2ID=cadastrarCaronaRelampagoRelampago idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
+carona2ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
 expect "31/05/2013" getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="data"
 expect 2 getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="minimoCaroneiros"
 
@@ -70,6 +71,38 @@ expectError "Carona Inexistente" getCaronaRelampago idCarona="xpto"
 expectError "Trajeto Inexistente" getTrajeto idCarona=""
 expectError "Trajeto Inválida" getTrajeto idCarona=
 expectError "Trajeto Inexistente" getTrajeto idCarona="xpto"
+
+encerrarSessao login="mark"
+
+#Solicitacao de Vaga
+criarUsuario login="bill" senha="bilz@o" nome="William Henry Gates III" endereco="Medina, Washington" email="billzin@gmail.com"
+
+sessaoBill=abrirSessao login="bill" senha="bilz@o"
+solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona1ID}
+
+#Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao1ID}
+
+#Solicitacao de vaga
+criarUsuario login="steve" senha="5t3v3" nome="Steve Mark" endereco="Medina, Washington" email="steve@gmail.com"
+
+sessaoSteve=abrirSessao login="steve" senha="5t3v3"
+solicitacao2ID=solicitarVaga idSessao=${sessaoSteve} idCarona=${carona1ID}
+
+#Iniciar sessão.
+sessaoMark=abrirSessao login="mark" senha="m@rk"
+
+#Aceitar requisição
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
+
+expiredID=setCaronaRelampagoExpired idCarona=${carona1ID}
+expect true getAtributoCaronaRelampago idCarona=${carona1ID} atributo="expired"
+expect [bill, steve] getAtributoExpired idExpired=${expiredID} atributo="emailTo"
+
+
 
 encerrarSistema
 quit
