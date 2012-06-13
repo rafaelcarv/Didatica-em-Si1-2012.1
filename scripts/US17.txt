@@ -4,37 +4,39 @@ zerarSistema
 
 # entradas válidas
 
-criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Rua Cap. Domingos Cariris, 78, Campina Grande, PB, Brasil" email="mark@facebook.com"
-criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" endereco="Rua Dq. de Caxias, 82, Campina Grande, PB, Brasil" email="jobs@apple.com"
+criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" endereco="Rua Cap. Domingos Cariris, 78, Centenário, Campina Grande, PB, Brasil" email="mark@facebook.com"
+criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" endereco="Rua Dq. de Caxias, 82, Prata, Campina Grande, PB, Brasil" email="jobs@apple.com"
 criarUsuario login="bill" senha="severino" nome="William Henry Gates III" endereco="R. Franklin Araujo, 300, Lauritzen, Campina Grande, PB, Brasil" email="billzin@msn.com"
+criarUsuario login="peter" senha="p3t3r" nome="Peter Parker" endereco="Rua Severino Nicolau de Melo, 582, Jardim Oceania, João Pessoa, PB, Brasil" email="peter@gmail.com"
 
 #Iniciar sessão.
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 
-#Cadastrar caronas.
-carona1ID=cadastrarCarona idSessao=${sessaoMark} origem="Campina Grande" destino="JoãoPessoa" data="01/06/2013" hora="12:00" vagas=1
+lista1ID=listarCaroneirosProximos idSessao=${sessaoMark}
+expect [steve,bill] getlistaID
 
-#Encerrar a sessao de mark.
 encerrarSessao login="mark"
 
-#Iniciar sessão com outro usuário.
+#Iniciar sessão.
 sessaoBill=abrirSessao login="bill" senha="severino"
 
-#Requisitar vaga na carona.
-solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona1ID}
+lista2ID=listarCaroneirosProximos idSessao=${sessaoBill}
+expect [steve,mark] getlistaID
+
 encerrarSessao login="bill"
 
-#Iniciar sessão com outro usuário.
-sessaoSteve=abrirSessao login="steve" senha="5t3v3"
+#Iniciar sessão.
+sessaoPeter=abrirSessao login="peter" senha="p3t3r"
 
-#Requisitar vaga na carona.
-solicitacao1ID=solicitarVaga idSessao=${sessaoBill} idCarona=${carona1ID}
-encerrarSessao login="steve"
+lista3ID=listarCaroneirosProximos idSessao=${sessaoPeter} 
+expect [] getlistaID
 
-sessaoMark=iniciarSessao login="mark" senha="m@rk"
+encerrarSessao login="peter"
 
-listaID=listarCaroneirosProximos idSessao=${sessaoMark} idCarona=${carona1ID} 
-expect [steve,bill] getlistaID
+
+
+
+
 
 
 
