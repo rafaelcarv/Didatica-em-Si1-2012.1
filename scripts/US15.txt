@@ -13,15 +13,15 @@ sessaoMark=abrirSessao login="mark" senha="m@rk"
 #o método cadastrar carona relâmpago retorna id
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 carona1ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande" destino="João Pessoa" data="23/06/2013" hora="16:00" minimoCaroneiros=3 
-expect "Campina Grande" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="origem"
-expect "João Pessoa" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="destino"
+expect "Campina Grande" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="origem"
+expect "João Pessoa" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="destino"
 expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}
 expect 2 getAtributoCaronaRelampago idCarona=${carona1ID} atributo="minimoCaroneiros"
 expect 3 getMinimoCaroneiros idCarona=${carona1ID}
 
 carona2ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo" data="31/05/2013" hora="08:00" minimoCaroneiros=2
-expect "31/05/2013" getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="data"
-expect 2 getAtibutoCaronaRelampago idCarona=${carona2ID} atributo="minimoCaroneiros"
+expect "31/05/2013" getAtributoCaronaRelampago idCarona=${carona2ID} atributo="data"
+expect 2 getAtributoCaronaRelampago idCarona=${carona2ID} atributo="minimoCaroneiros"
 
 carona3ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="João Pessoa" destino="Campina Grande" data="25/11/2026" hora="06:59" minimoCaroneiros=4
 expect "João Pessoa para Campina Grande, no dia 25/11/2026, as 06:59" getCaronaRelampago idCarona=${carona3ID}
@@ -59,12 +59,12 @@ expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${se
 expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="08:00" minimoCaroneiros="dois"
 expectError "Minimo Caroneiros inválido" cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Patos" destino="João Pessoa" data="31/05/2013" hora="08:00" minimoCaroneiros=0
 
-expectError "Identificador do carona é inválido" getAtibutoCaronaRelampago idCarona= atributo="origem"
-expectError "Identificador do carona é inválido" getAtibutoCaronaRelampago idCarona="" atributo="origem"
-expectError "Item inexistente" getAtibutoCaronaRelampago idCarona="xpto" atributo="destino"
-expectError "Atributo inválido" getAtibutoCaronaRelampago idCarona=${carona3ID} atributo=
-expectError "Atributo inválido" getAtibutoCaronaRelampago idCarona=${carona2ID} atributo=""
-expectError "Atributo inexistente" getAtibutoCaronaRelampago idCarona=${carona1ID} atributo="xpto"
+expectError "Identificador do carona é inválido" getAtributoCaronaRelampago idCarona= atributo="origem"
+expectError "Identificador do carona é inválido" getAtributoCaronaRelampago idCarona="" atributo="origem"
+expectError "Item inexistente" getAtributoCaronaRelampago idCarona="xpto" atributo="destino"
+expectError "Atributo inválido" getAtributoCaronaRelampago idCarona=${carona3ID} atributo=
+expectError "Atributo inválido" getAtributoCaronaRelampago idCarona=${carona2ID} atributo=""
+expectError "Atributo inexistente" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="xpto"
 expectError "Carona Inexistente" getCaronaRelampago idCarona=""
 expectError "Carona Inválida" getCaronaRelampago idCarona=
 expectError "Carona Inexistente" getCaronaRelampago idCarona="xpto"
