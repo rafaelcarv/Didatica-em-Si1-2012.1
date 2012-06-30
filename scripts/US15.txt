@@ -16,7 +16,7 @@ carona1ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Campina Grande
 expect "Campina Grande" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="origem"
 expect "João Pessoa" getAtributoCaronaRelampago idCarona=${carona1ID} atributo="destino"
 expect "Campina Grande - João Pessoa" getTrajeto idCarona=${carona1ID}
-expect 2 getAtributoCaronaRelampago idCarona=${carona1ID} atributo="minimoCaroneiros"
+expect 3 getAtributoCaronaRelampago idCarona=${carona1ID} atributo="minimoCaroneiros"
 expect 3 getMinimoCaroneiros idCarona=${carona1ID}
 
 carona2ID=cadastrarCaronaRelampago idSessao=${sessaoMark} origem="Rio de Janeiro" destino="São Paulo" dataIda="31/05/2013" dataVolta="01/06/2013" hora="08:00" minimoCaroneiros=2
@@ -100,7 +100,7 @@ aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao2ID}
 
 expiredID=setCaronaRelampagoExpired idCarona=${carona1ID}
 expect true getAtributoCaronaRelampago idCarona=${carona1ID} atributo="expired"
-expect [bill, steve] getAtributoExpired idExpired=${expiredID} atributo="emailTo"
+expect [bill,steve] getAtributoExpired idExpired=${expiredID} atributo="emailTo"
 
 
 
