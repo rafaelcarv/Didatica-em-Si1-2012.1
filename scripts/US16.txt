@@ -58,7 +58,7 @@ expect "Mark Zuckerberg" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} 
 expect "Anakin Skywalker" getAtributoSolicitacao idSolicitacao=${solicitacao3ID} atributo="Dono da solicitacao"
 
 # Aceitar requisição
-aceitarSolicitacao idSessao=${sessaoAnakin} idSolicitacao=${solicitacao3ID}
+aceitarSolicitacao idSessao=${sessaoMark} idSolicitacao=${solicitacao3ID}
 expect 0 getAtributoCarona idCarona=${carona1ID} atributo="vagas"
 
 # Review de carona.
